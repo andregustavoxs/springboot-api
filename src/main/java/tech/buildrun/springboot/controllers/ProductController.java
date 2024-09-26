@@ -29,6 +29,12 @@ public class ProductController {
     @Autowired
     ProductRepository productRepository;
 
+    /**
+     * Salva um novo produto.
+     *
+     * @param productRecordDto o DTO do produto que contém os dados a serem salvos, não pode ser nulo ou inválido
+     * @return ResponseEntity contendo o modelo do produto salvo e o status HTTP 201 (Created)
+     */
     @PostMapping("/products")
     public ResponseEntity<ProductModel> saveProduct(@RequestBody @Valid ProductRecordDto productRecordDto) {
         var productModel = new ProductModel();
@@ -36,25 +42,43 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.CREATED).body(productRepository.save(productModel));
     }
 
+    /**
+     * Retorna todos os produtos.
+     *
+     * @return ResponseEntity contendo a lista de todos os modelos de produtos e o status HTTP 200 (OK)
+     */
     @GetMapping("/products")
     public ResponseEntity<List<ProductModel>> getAllProducts() {
         return ResponseEntity.status(HttpStatus.OK).body(productRepository.findAll());
     }
 
+    /**
+     * Retorna um produto específico pelo ID.
+     *
+     * @param id o UUID do produto a ser retornado, não pode ser nulo
+     * @return ResponseEntity contendo o modelo do produto encontrado e o status HTTP 200 (OK), ou uma mensagem de erro e o status HTTP 404 (Not Found) se o produto não for encontrado
+     */
     @GetMapping("/products/{id}")
     public ResponseEntity<Object> getOneProduct(@PathVariable(value = "id") UUID id) {
         Optional<ProductModel> productModelOptional = productRepository.findById(id);
         if (productModelOptional.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Product not found.");
         }
-            return ResponseEntity.status(HttpStatus.OK).body(productModelOptional.get());
+        return ResponseEntity.status(HttpStatus.OK).body(productModelOptional.get());
     }
 
+    /**
+     * Atualiza um produto existente pelo ID.
+     *
+     * @param id               o UUID do produto a ser atualizado, não pode ser nulo
+     * @param productRecordDto o DTO do produto que contém os novos dados, não pode ser nulo ou inválido
+     * @return ResponseEntity contendo o modelo do produto atualizado e o status HTTP 200 (OK), ou uma mensagem de erro e o status HTTP 404 (Not Found) se o produto não for encontrado
+     */
     @PutMapping("/products/{id}")
     public ResponseEntity<Object> updateProduct(@PathVariable(value = "id") UUID id, @RequestBody @Valid ProductRecordDto productRecordDto) {
         Optional<ProductModel> productModelOptional = productRepository.findById(id);
 
-        if(productModelOptional.isEmpty()) {
+        if (productModelOptional.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Product Not Found.");
         }
 
@@ -63,11 +87,17 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.OK).body(productRepository.save(productModel));
     }
 
+    /**
+     * Deleta um produto existente pelo ID.
+     *
+     * @param id o UUID do produto a ser deletado, não pode ser nulo
+     * @return ResponseEntity contendo uma mensagem de sucesso e o status HTTP 200 (OK), ou uma mensagem de erro e o status HTTP 404 (Not Found) se o produto não for encontrado
+     */
     @DeleteMapping("/products/{id}")
-    public ResponseEntity<Object> deleteProduct(@PathVariable(value="id") UUID id) {
+    public ResponseEntity<Object> deleteProduct(@PathVariable(value = "id") UUID id) {
         Optional<ProductModel> productModelOptional = productRepository.findById(id);
 
-        if(productModelOptional.isEmpty()) {
+        if (productModelOptional.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Product not found.");
         }
 
