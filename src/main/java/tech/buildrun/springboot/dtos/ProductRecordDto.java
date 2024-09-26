@@ -1,4 +1,4 @@
-package tech.buildrun.springboot;
+package tech.buildrun.springboot.dtos;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
