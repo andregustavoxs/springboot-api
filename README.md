@@ -1,5 +1,7 @@
 # springboot-api
 
+<img width="1710" alt="Screenshot 2024-10-01 at 9 50 48 AM" src="https://github.com/user-attachments/assets/ddb098b2-7d7b-4855-a397-23732fbc5637">
+
 Este projeto é sobre um CRUD de produtos. A aplicação segue a arquitetura RESTful e implementa os seguintes conceitos:
 
 - **Verbos HTTP**: São utilizados para definir as operações que podem ser realizadas nos recursos. Por exemplo:
